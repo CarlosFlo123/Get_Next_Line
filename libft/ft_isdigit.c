@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/03 14:02:49 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/04 23:03:39 by cflores-         ###   ########.fr       */
+/*   Created: 2018/07/14 17:43:10 by cflores-          #+#    #+#             */
+/*   Updated: 2018/07/24 22:51:44 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFFSIZE = 1;
-# define EOF = -1;
-# include <libft.h>
-
-typedef struct	s_line
+int		ft_isdigit(int c)
 {
-	char		**line;
-	int			fd;
-}				t_line;
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	if (c <= 57 && c >= 48)
+		return (1);
+	return (0);
+}

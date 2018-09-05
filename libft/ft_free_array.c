@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_free_array.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/03 14:02:49 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/04 23:03:39 by cflores-         ###   ########.fr       */
+/*   Created: 2018/07/28 18:19:19 by cflores-          #+#    #+#             */
+/*   Updated: 2018/07/28 18:19:38 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFFSIZE = 1;
-# define EOF = -1;
-# include <libft.h>
-
-typedef struct	s_line
+void	ft_free_array(char **arr)
 {
-	char		**line;
-	int			fd;
-}				t_line;
+	int i;
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+	if (!arr)
+		return ;
+	i = -1;
+	while (arr[++i])
+	{
+		free(arr[i]);
+	}
+	free(arr);
+	arr = NULL;
+}

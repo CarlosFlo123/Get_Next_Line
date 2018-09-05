@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/03 14:02:49 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/04 23:03:39 by cflores-         ###   ########.fr       */
+/*   Created: 2018/07/14 21:25:25 by cflores-          #+#    #+#             */
+/*   Updated: 2018/07/26 11:56:42 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFFSIZE = 1;
-# define EOF = -1;
-# include <libft.h>
-
-typedef struct	s_line
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	char		**line;
-	int			fd;
-}				t_line;
+	char	*ptr;
+	size_t	i;
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+	if (!s)
+		return (0);
+	ptr = ft_strnew(len);
+	if (!ptr)
+		return (0);
+	i = 0;
+	while (i < len)
+		*(ptr + i++) = *(s + start++);
+	return (ptr);
+}

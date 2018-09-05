@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_wcount.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/03 14:02:49 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/04 23:03:39 by cflores-         ###   ########.fr       */
+/*   Created: 2018/07/27 03:07:01 by cflores-          #+#    #+#             */
+/*   Updated: 2018/07/27 03:07:10 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFFSIZE = 1;
-# define EOF = -1;
-# include <libft.h>
-
-typedef struct	s_line
+int		ft_wcount(char *s, char delim)
 {
-	char		**line;
-	int			fd;
-}				t_line;
+	int	size;
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+	size = 0;
+	if (*s && *s != delim)
+		size++;
+	while (*++s)
+		if (*s != delim && *(s - 1) == delim)
+			size++;
+	return (size);
+}

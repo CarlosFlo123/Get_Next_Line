@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/03 14:02:49 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/04 23:03:39 by cflores-         ###   ########.fr       */
+/*   Created: 2018/07/14 23:29:14 by cflores-          #+#    #+#             */
+/*   Updated: 2018/07/27 02:46:41 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# define BUFFSIZE = 1;
-# define EOF = -1;
-# include <libft.h>
-
-typedef struct	s_line
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	char		**line;
-	int			fd;
-}				t_line;
+	t_list	*ret;
+	t_list	*lst_p;
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+	ret = (lst && f) ? f(lst) : NULL;
+	lst_p = ret;
+	while (lst_p && lst->next)
+	{
+		lst_p->next = f(lst->next);
+		lst = lst->next;
+		lst_p = lst_p->next;
+	}
+	return (ret);
+}
