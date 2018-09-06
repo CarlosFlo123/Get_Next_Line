@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/03 14:02:49 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/04 23:03:39 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/05 22:43:42 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # define BUFFSIZE = 1;
 # define EOF = -1;
-# include <libft.h>
+# include "libft/libft.h"
+# include <fcntl.h>
 
 typedef struct	s_line
 {
