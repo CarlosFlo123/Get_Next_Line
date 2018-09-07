@@ -13,8 +13,8 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFFSIZE = 1;
-# define EOF = -1;
+#define BUFF_SIZE 3
+//# define EOF = '\0';
 # include "libft/libft.h"
 # include <fcntl.h>
 
