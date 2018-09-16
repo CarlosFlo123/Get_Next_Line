@@ -6,13 +6,17 @@
 #    By: cflores- <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/11 15:27:16 by cflores-          #+#    #+#              #
-#    Updated: 2018/07/28 18:14:32 by cflores-         ###   ########.fr        #
+#    Updated: 2018/09/11 15:19:59 by cflores-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
 CFLAGS = -I
+
+HEADER = ./includes/
+
+OPTION = -c -I $(HEADER)
 
 SRC = ft_strlen.c \
 	  ft_memset.c \
@@ -80,7 +84,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME):
-	@gcc -c -Wall -Wextra -Werror $(SRC)
+	@gcc -c -Wall -Wextra -Werror $(OPTION) $(SRC)
 	@ar rc $(NAME) $(OBJ)
 
 clean: 

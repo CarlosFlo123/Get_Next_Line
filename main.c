@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/03 14:02:49 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/13 03:13:27 by cflores-         ###   ########.fr       */
+/*   Created: 2018/09/11 15:37:12 by cflores-          #+#    #+#             */
+/*   Updated: 2018/09/16 15:46:52 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
+#include <stdio.h>
 
-//# define EOF = '\0';
-# include <fcntl.h>
-# include <libft.h>
-# define BUFF_SIZE  2
-
-typedef struct	s_line
+int main()
 {
-	char		**line;
-	int			fd;
-}				t_line;
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	int		fd;
+	char	**line; //the pointer that saves the line read from the file descriptor
+	line = malloc(sizeof (char **));
+	//*line = ft_strnew(18);
+	fd = open("sample_file.txt", O_RDONLY);
+	//printf("%d", fd);
+	if (0 > get_next_line(fd, line))
+		printf("Fatal error\n");
+	return (0);
+}
