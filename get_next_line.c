@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/17 04:54:51 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/17 23:19:25 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,20 @@ int		get_next_line(int fd, char **line)
 		while (buffer[i])
 		{
 			//printf("HELLO BITCH");
-			if (buffer[i] == '\n')
+			if (buffer[i] == '\n' || buffer[i] == '\0')
 			{
 				tmp = ft_strncpy(tmp, buffer, i);
 				//printf("%s\n", tmp);
 				*line = ft_strcat(*line, tmp);
 				flag = 1;
+				if (buffer[i] == '\0')
+					return (0);
 				break ;
 			}
 			i++;
 		}
 		if (flag == 0)
 			*line = ft_strcat(*line, buffer);
-		//printf("%s|", *line);
 		if (flag == 1)
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 15:37:12 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/17 05:20:43 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/17 23:19:28 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,15 @@ int main()
 	//while(get_next_line(fd, &line) == 1)
 		//ft_putendl(line);
 		//free(line);
-	if (0 > get_next_line(fd, &line))
-		printf("Fatal error\n");
+	while (1 != get_next_line(fd, &line))
+	{
+		printf("CARAJO%s", line);
+	}
+	//if (0 > get_next_line(fd, &line))
+	//	printf("Fatal error\n");
+	/*while(get_next_line(fd, &line) > 0)
+	{
+		ft_putstr(line);
+	}*/
 	return (0);
 }
