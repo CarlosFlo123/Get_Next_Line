@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/13 22:45:46 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/11 15:20:46 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/19 23:00:14 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,7 @@ int					ft_wcount(char *s, char delim);
 char				*ft_capitalize(char *s);
 void				*ft_realloc(void *ptr, size_t prev_size, size_t new_size);
 void				ft_free_array(char **arr);
+int					ft_copyuntil(char **dst, char *src, char c);
+char				*ft_strjoinch(char const *s1, char c);
 
 #endif

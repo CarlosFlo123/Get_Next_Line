@@ -6,34 +6,48 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/18 23:23:11 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/20 02:43:17 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
+static t_list			*get_correct_file(t_list **file, int fd)
+{
+	t_list				*tmp;
+
+	tmp = *file;
+	while (tmp)
+	{
+		if ((int)tmp->content_size == fd)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	tmp = ft_lstnew("\0", fd);
+	ft_lstadd(file, tmp);
+	tmp = *file;
+	return (tmp);
+}
+
+
+
 int		get_next_line(int fd, char **line)
 {
-	char	*buffer = 0;
-	int		i = 0;
-	int		flag = 0;
-	char	*tmp = 0;
-	int		readed = 0;
-	//t_list	*curr;
-
+	static t_list	*file;
+	char			*buffer = 0;
+	int				i = 0;
+	int				flag = 0;
+	char			*tmp = 0;
+	int				readed = 0;
+	t_list			*curr;
+	
 	buffer = ft_strnew(BUFF_SIZE);
-	//line = 0;
-	//tmp = malloc(sizeof (char *) * 80);
-	//line = malloc(sizeof (char **) * 3);
-	//*line = malloc(sizeof(char *) * 80);
 	while (1)
 	{
-		//fflush( stdin );
-		//if (!(buffer = ft_strnew(BUFF_SIZE)))
-		//	return (-1);
 		if (fd < 0 && read(fd, buffer, 0) <= 0)
 			return (-1);
+		curr = get_correct_file(&file, fd);
 		readed = read(fd, buffer, BUFF_SIZE);
 		i = 0;
 		while (buffer[i])
@@ -43,28 +57,25 @@ int		get_next_line(int fd, char **line)
 			if (buffer[i] == '\n')
 			{
 				tmp = ft_strncpy(tmp, buffer, i);
-				//printf("%s\n", tmp);
-				*line = ft_strjoin(*line, tmp);
+				//printf("%sBITCH\n", buffer);
+				curr->content = ft_strjoin(curr->content, tmp);
 				flag = 1;
 				free(tmp);
 				break ;
 			}
 			i++;
 		}
+		*line = curr->content;
 		if (readed == 0)
 		{
 			printf("END OF FILE");
-			//free(buffer);
 			return (0);
 		}
 		if (flag == 0)
-		{
-			*line = ft_strjoin(*line, buffer);
-			//free(buffer);
-		}
+			curr->content = ft_strjoin(curr->content, buffer);
 		if (flag == 1)
 		{
-			//free(buffer);
+			curr->content = buffer;
 			break ;
 		}
 	}

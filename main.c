@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 15:37:12 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/18 23:23:13 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/20 02:40:52 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ int main()
 		//free(line);
 	while (0 != get_next_line(fd, &line))
 	{
-		printf("%s\n", line);
+		printf("%s", line);
 		free(line);
 	}
-	//if (0 > get_next_line(fd, &line))
-	//	printf("Fatal error\n");
+	/*for (int i = 0; i < 3 ; i++)
+	{
+		if (0 < get_next_line(fd, &line))
+			printf("%s\nGOOD\n", line);
+	}*/
 	/*while(get_next_line(fd, &line) > 0)
 	{
 		ft_putstr(line);
