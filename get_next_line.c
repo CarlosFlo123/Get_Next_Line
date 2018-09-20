@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/20 02:43:17 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/20 04:38:04 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,16 @@ int		get_next_line(int fd, char **line)
 		while (buffer[i])
 		{
 			tmp = ft_strnew(1);
-			//printf("HELLO BITCH");
 			if (buffer[i] == '\n')
 			{
-				tmp = ft_strncpy(tmp, buffer, i);
-				//printf("%sBITCH\n", buffer);
-				curr->content = ft_strjoin(curr->content, tmp);
 				flag = 1;
-				free(tmp);
 				break ;
 			}
 			i++;
 		}
 		*line = curr->content;
 		if (readed == 0)
-		{
-			printf("END OF FILE");
 			return (0);
-		}
 		if (flag == 0)
 			curr->content = ft_strjoin(curr->content, buffer);
 		if (flag == 1)
@@ -79,6 +71,5 @@ int		get_next_line(int fd, char **line)
 			break ;
 		}
 	}
-	//printf("%s", *line);
 	return (1);
 }
