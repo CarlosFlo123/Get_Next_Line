@@ -6,14 +6,14 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/20 04:38:04 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/21 02:00:52 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-static t_list			*get_correct_file(t_list **file, int fd)
+static t_list	*get_correct_file(t_list **file, int fd)
 {
 	t_list				*tmp;
 
@@ -30,46 +30,31 @@ static t_list			*get_correct_file(t_list **file, int fd)
 	return (tmp);
 }
 
-
-
-int		get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static t_list	*file;
-	char			*buffer = 0;
-	int				i = 0;
-	int				flag = 0;
-	char			*tmp = 0;
-	int				readed = 0;
+	char			*buffer;
+	int				i;
+	int				readed;
 	t_list			*curr;
-	
-	buffer = ft_strnew(BUFF_SIZE);
-	while (1)
+
+	buffer = ft_strnew(BUFF_SIZE + 1);
+	if (fd < 0 || line == NULL || read(fd, buffer, 0) < 0)
+		return (-1);
+	curr = get_correct_file(&file, fd);
+	while ((readed = read(fd, buffer, BUFF_SIZE)))
 	{
-		if (fd < 0 && read(fd, buffer, 0) <= 0)
+		buffer[readed] = '\0';
+		if (!(curr->content = ft_strjoin(curr->content, buffer)))
 			return (-1);
-		curr = get_correct_file(&file, fd);
-		readed = read(fd, buffer, BUFF_SIZE);
-		i = 0;
-		while (buffer[i])
-		{
-			tmp = ft_strnew(1);
-			if (buffer[i] == '\n')
-			{
-				flag = 1;
-				break ;
-			}
-			i++;
-		}
-		*line = curr->content;
-		if (readed == 0)
-			return (0);
-		if (flag == 0)
-			curr->content = ft_strjoin(curr->content, buffer);
-		if (flag == 1)
-		{
-			curr->content = buffer;
+		if (ft_strchr(buffer, '\n'))
 			break ;
-		}
 	}
+	if (readed < BUFF_SIZE && !ft_strlen(curr->content))
+		return (0);
+	i = ft_copyuntil(line, curr->content, '\n');
+	(i < (int)ft_strlen(curr->content))
+		? curr->content += (i + 1)
+		: ft_strclr(curr->content);
 	return (1);
 }
