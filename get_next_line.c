@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/21 02:00:52 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/27 00:28:57 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,69 @@ static t_list	*get_correct_file(t_list **file, int fd)
 		tmp = tmp->next;
 	}
 	tmp = ft_lstnew("\0", fd);
+	tmp->content = ft_strnew(2000);
 	ft_lstadd(file, tmp);
 	tmp = *file;
 	return (tmp);
+	//return (ft_lstnew(NULL, fd));
+}
+
+/*
+ *get_index() Where \n is finded
+ */
+int				get_index(char *ptr)
+{
+	int		i = 0;
+	char	*tmp;
+	
+	tmp = ptr;
+	while (tmp[i])
+	{
+		if (tmp[i] == '\n')
+			return (i);
+		i += 1;
+	}
+	return (i);
 }
 
 int				get_next_line(int fd, char **line)
 {
 	static t_list	*file;
-	char			*buffer;
+	char			buffer[BUFF_SIZE + 1];
 	int				i;
-	int				readed;
+	int				read_ed;
 	t_list			*curr;
+	//char			*tmp;
 
-	buffer = ft_strnew(BUFF_SIZE + 1);
+
+//	curr->content = 0;
 	if (fd < 0 || line == NULL || read(fd, buffer, 0) < 0)
 		return (-1);
 	curr = get_correct_file(&file, fd);
-	while ((readed = read(fd, buffer, BUFF_SIZE)))
+	while ((read_ed = read(fd, buffer, BUFF_SIZE)))
 	{
-		buffer[readed] = '\0';
-		if (!(curr->content = ft_strjoin(curr->content, buffer)))
+		buffer[read_ed] = '\0'; //noLeaks
+		if (!(curr->content = ft_strjoin(curr->content, buffer))) //1leak
 			return (-1);
+		//if (curr->content)
+		//	free(curr->content);
+		//curr->content = tmp;
+		//printf("\nBuff:%i\n", readed);
+		//printf("%s", curr->content);
+		//while(1);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	if (readed < BUFF_SIZE && !ft_strlen(curr->content))
+	if (read_ed < BUFF_SIZE && !ft_strlen(curr->content))
 		return (0);
-	i = ft_copyuntil(line, curr->content, '\n');
+	i = ft_copyuntil(line, curr->content, '\n');//4leak
+	//i = get_index(curr->content);
+	//ft_strncpy(*line, curr->content, i);
+	//printf("\n%s", *line);
+	//while(1);
 	(i < (int)ft_strlen(curr->content))
 		? curr->content += (i + 1)
 		: ft_strclr(curr->content);
+	//while (1);
 	return (1);
 }

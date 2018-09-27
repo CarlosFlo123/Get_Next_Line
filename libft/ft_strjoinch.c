@@ -6,7 +6,7 @@
 /*   By: jrameau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/27 00:08:20 by jrameau           #+#    #+#             */
-/*   Updated: 2016/09/27 00:08:21 by jrameau          ###   ########.fr       */
+/*   Updated: 2018/09/26 20:31:06 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ char	*ft_strjoinch(char const *s1, char c)
 	while (++i < s1_len)
 		*(new_str + i) = *(s1 + i);
 	*(new_str + i) = c;
+	free((char*)s1);
 	return (new_str);
 }
