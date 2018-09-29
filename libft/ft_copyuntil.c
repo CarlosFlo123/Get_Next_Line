@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 22:55:35 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/26 20:05:34 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/28 20:16:48 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int			ft_copyuntil(char **dst, char *src, char c)
 	int		i;
 	int		count;
 	int		pos;
+	char	*tmp;
 
 	i = -1;
 	count = 0;
@@ -28,7 +29,10 @@ int			ft_copyuntil(char **dst, char *src, char c)
 		return (0);
 	while (src[count] && count < i)
 	{
-		if (!(*dst = ft_strjoinch(*dst, src[count])))
+		tmp = *dst;
+		*dst = NULL;
+		free(*dst);
+		if (!(*dst = ft_strjoinch(tmp, src[count])))
 			return (0);
 		count++;
 	}

@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/27 00:28:57 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/09/28 20:18:23 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ static t_list	*get_correct_file(t_list **file, int fd)
 		tmp = tmp->next;
 	}
 	tmp = ft_lstnew("\0", fd);
-	tmp->content = ft_strnew(2000);
 	ft_lstadd(file, tmp);
-	tmp = *file;
+	//tmp = *file;
 	return (tmp);
 	//return (ft_lstnew(NULL, fd));
 }
@@ -55,19 +54,22 @@ int				get_next_line(int fd, char **line)
 	static t_list	*file;
 	char			buffer[BUFF_SIZE + 1];
 	int				i;
-	int				read_ed;
+	int				read_bits;
 	t_list			*curr;
-	//char			*tmp;
+	char			*tmp;
 
 
 //	curr->content = 0;
 	if (fd < 0 || line == NULL || read(fd, buffer, 0) < 0)
 		return (-1);
 	curr = get_correct_file(&file, fd);
-	while ((read_ed = read(fd, buffer, BUFF_SIZE)))
+	while ((read_bits = read(fd, buffer, BUFF_SIZE)))
 	{
-		buffer[read_ed] = '\0'; //noLeaks
-		if (!(curr->content = ft_strjoin(curr->content, buffer))) //1leak
+		buffer[read_bits] = '\0'; //noLeaks
+		tmp = (char *)curr->content;
+		curr->content = NULL;
+		free(curr->content);
+		if (!(curr->content = ft_strjoin(tmp, buffer))) //1leak
 			return (-1);
 		//if (curr->content)
 		//	free(curr->content);
@@ -78,13 +80,13 @@ int				get_next_line(int fd, char **line)
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	if (read_ed < BUFF_SIZE && !ft_strlen(curr->content))
+	if (read_bits < BUFF_SIZE && !ft_strlen(curr->content))
 		return (0);
 	i = ft_copyuntil(line, curr->content, '\n');//4leak
 	//i = get_index(curr->content);
 	//ft_strncpy(*line, curr->content, i);
 	//printf("\n%s", *line);
-	//while(1);
+	//	while(1);
 	(i < (int)ft_strlen(curr->content))
 		? curr->content += (i + 1)
 		: ft_strclr(curr->content);
