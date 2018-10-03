@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/10/03 00:37:00 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/10/03 03:06:01 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,26 @@ int				get_next_line(int fd, char **line)
 		return (-1);
 	curr = get_correct_file(&file, fd);
 	tmp = NULL;
+	//curr->content = NULL;
 	while ((read_bits = read(fd, buffer, BUFF_SIZE)))
 	{
 		buffer[read_bits] = '\0';
-		//tmp = (char *)curr->content;
 		tmp = curr->content;
-		curr->content = NULL;
-		free(curr->content);
-		if (!(curr->content = ft_strjoin(tmp, buffer))) //1leak
+		//free((void *)curr->content);
+		//curr->content = NULL;
+		//free(curr->content);
+		if (!(curr->content = ft_strjoin(tmp, buffer))) //1leaki
 			return (-1);
-		//curr->content = tmp;
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
 	
 	//while(1);
-//	free(tmp);
 	if (read_bits < BUFF_SIZE && !ft_strlen(curr->content))
+	{
+		free(curr);
 		return (0);
+	}
 	i = ft_copyuntil(line, curr->content, '\n');//4leak
 	//i = get_index(curr->content);
 	//ft_strncpy(*line, curr->content, i);
@@ -89,6 +91,6 @@ int				get_next_line(int fd, char **line)
 	(i < (int)ft_strlen(curr->content))
 		? curr->content += (i + 1)
 		: ft_strclr(curr->content);
-	while (1);
+	//while (1);
 	return (1);
 }
