@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/28 20:18:23 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/10/03 00:37:00 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,37 +59,36 @@ int				get_next_line(int fd, char **line)
 	char			*tmp;
 
 
-//	curr->content = 0;
 	if (fd < 0 || line == NULL || read(fd, buffer, 0) < 0)
 		return (-1);
 	curr = get_correct_file(&file, fd);
+	tmp = NULL;
 	while ((read_bits = read(fd, buffer, BUFF_SIZE)))
 	{
-		buffer[read_bits] = '\0'; //noLeaks
-		tmp = (char *)curr->content;
+		buffer[read_bits] = '\0';
+		//tmp = (char *)curr->content;
+		tmp = curr->content;
 		curr->content = NULL;
 		free(curr->content);
 		if (!(curr->content = ft_strjoin(tmp, buffer))) //1leak
 			return (-1);
-		//if (curr->content)
-		//	free(curr->content);
 		//curr->content = tmp;
-		//printf("\nBuff:%i\n", readed);
-		//printf("%s", curr->content);
-		//while(1);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
+	
+	//while(1);
+//	free(tmp);
 	if (read_bits < BUFF_SIZE && !ft_strlen(curr->content))
 		return (0);
 	i = ft_copyuntil(line, curr->content, '\n');//4leak
 	//i = get_index(curr->content);
 	//ft_strncpy(*line, curr->content, i);
 	//printf("\n%s", *line);
-	//	while(1);
+	//while(1);
 	(i < (int)ft_strlen(curr->content))
 		? curr->content += (i + 1)
 		: ft_strclr(curr->content);
-	//while (1);
+	while (1);
 	return (1);
 }

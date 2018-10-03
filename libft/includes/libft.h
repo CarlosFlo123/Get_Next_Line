@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/13 22:45:46 by cflores-          #+#    #+#             */
-/*   Updated: 2018/09/26 05:54:15 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/10/01 03:18:38 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef struct		s_list
 {
-	void			*content;
+	char			*content;
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
