@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/10/03 03:06:01 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/10/03 23:20:38 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,29 +68,48 @@ int				get_next_line(int fd, char **line)
 	{
 		buffer[read_bits] = '\0';
 		tmp = curr->content;
+		//ft_strdel(&curr->content);
 		//free((void *)curr->content);
 		//curr->content = NULL;
 		//free(curr->content);
 		if (!(curr->content = ft_strjoin(tmp, buffer))) //1leaki
 			return (-1);
+		ft_strdel(&tmp);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	
+	/* end of file
+	if (read_bits == 0)	
+		return (0);
+		*/
 	//while(1);
 	if (read_bits < BUFF_SIZE && !ft_strlen(curr->content))
 	{
-		free(curr);
+		//ft_strdel(&curr-content);
+		//free(curr);
 		return (0);
 	}
 	i = ft_copyuntil(line, curr->content, '\n');//4leak
-	//i = get_index(curr->content);
+	//i = ge
+	//t_index(curr->content);
 	//ft_strncpy(*line, curr->content, i);
+	//
 	//printf("\n%s", *line);
-	//while(1);
-	(i < (int)ft_strlen(curr->content))
+//	while(1);
+//	curr->content[i+1]
+	if (i < (int) ft_strlen(curr->content))
+	{
+		tmp = ft_strdup(curr->content + (i + 1));
+		ft_strdel(&curr->content);
+		curr->content = tmp;
+	}
+	else
+		ft_strclr(curr->content);
+	/*
+	(i< (int)ft_strlen(curr->content))
 		? curr->content += (i + 1)
 		: ft_strclr(curr->content);
+	*/
 	//while (1);
 	return (1);
 }
