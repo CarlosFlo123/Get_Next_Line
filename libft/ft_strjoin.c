@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/19 22:58:44 by cflores-          #+#    #+#             */
-/*   Updated: 2018/10/03 22:13:55 by cflores-         ###   ########.fr       */
+/*   Created: 2018/07/14 21:27:20 by cflores-          #+#    #+#             */
+/*   Updated: 2018/10/09 14:05:17 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*new_str;
-	size_t	i;
-	size_t	j;
-	size_t	s1_len;
-	size_t	s2_len;
+	char	*r;
+	int		i;
+	int		j;
 
-	if (!s1 || !s2)
+	i = 0;
+	j = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	r = (char*)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (r == NULL)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	new_str = ft_strnew(s1_len + s2_len);
-	if (!new_str)
-		return (NULL);
-	i = -1;
-	j = -1;
-	while (++i < s1_len)
-		*(new_str + i) = *(s1 + i);
-	while (++j < s2_len)
-		*(new_str + i++) = *(s2 + j);
-	return (new_str);
+	while (s1[j] != '\0')
+		r[i++] = s1[j++];
+	j = 0;
+	while (s2[j] != '\0')
+		r[i++] = s2[j++];
+	r[i] = '\0';
+	return (r);
 }

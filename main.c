@@ -6,7 +6,7 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 21:19:40 by cflores-          #+#    #+#             */
-/*   Updated: 2018/10/03 12:35:11 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/10/07 17:31:25 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int main()
 	int		fd;
 	char	*line; //the pointer that saves the line read from the file descriptor
 	//line = malloc(sizeof (char **);
-	fd = open("gnl7_3.txt", O_RDONLY);
-	while (0 != get_next_line(fd, &line))
+	fd = open("sample_file.txt", O_RDONLY);
+	while (1 == get_next_line(fd, &line))
 	{
 		printf("%s\n", line);
 		free(line);

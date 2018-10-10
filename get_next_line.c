@@ -6,76 +6,62 @@
 /*   By: cflores- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:19:53 by cflores-          #+#    #+#             */
-/*   Updated: 2018/10/04 00:52:58 by cflores-         ###   ########.fr       */
+/*   Updated: 2018/10/09 14:50:01 by cflores-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-static t_list	*get_correct_file(t_list **file, int fd)
+int		ft_new_line(char **file, char **line, int fd, int read_bits)
 {
-	t_list				*tmp;
+	char	*tmp;
+	int		len;
 
-	tmp = *file;
-	while (tmp)
+	len = 0;
+	while (file[fd][len] != '\n' && file[fd][len] != '\0')
+		len++;
+	if (file[fd][len] == '\n')
 	{
-		if ((int)tmp->content_size == fd)
-			return (tmp);
-		tmp = tmp->next;
+		*line = ft_strsub(file[fd], 0, len);
+		tmp = ft_strdup(file[fd] + len + 1);
+		free(file[fd]);
+		file[fd] = tmp;
+		if (file[fd][0] == '\0')
+			ft_strdel(&file[fd]);
 	}
-	tmp = ft_lstnew("\0", fd);
-	ft_lstadd(file, tmp);
-	return (tmp);
+	else if (file[fd][len] == '\0')
+	{
+		if (read_bits == BUFF_SIZE)
+			return (get_next_line(fd, line));
+		*line = ft_strdup(file[fd]);
+		ft_strdel(&file[fd]);
+	}
+	return (1);
 }
 
-/*void			update_content(int read_bits, char *content)
+int		get_next_line(const int fd, char **line)
 {
-	char *tmp = NULL;
+	static char	*file[255];
+	char		buff[BUFF_SIZE + 1];
+	char		*tmp;
+	int			read_bits;
 
-	if (read_bits < (int)ft_strlen(content))
-	{
-		tmp = ft_strdup(content + (read_bits + 1));
-		ft_strdel(&content);
-		content = tmp;
-	}
-	else
-		ft_strclr(content);
-	if (tmp)
-		ft_strdel(&tmp);
-}*/
-
-int				get_next_line(int fd, char **line)
-{
-	static t_list	*file;
-	char			buffer[BUFF_SIZE + 1];
-	int				read_bits;
-	t_list			*curr;
-	char			*tmp;
-
-	if (fd < 0 || line == NULL || read(fd, buffer, 0) < 0)
+	if (fd < 0 || line == NULL)
 		return (-1);
-	curr = get_correct_file(&file, fd);
-	while ((read_bits = read(fd, buffer, BUFF_SIZE)))
+	while ((read_bits = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		buffer[read_bits] = '\0';
-		tmp = curr->content;
-		if (!(curr->content = ft_strjoin(tmp, buffer)))
-			return (-1);
-		ft_strdel(&tmp);
-		if (ft_strchr(buffer, '\n'))
+		buff[read_bits] = '\0';
+		if (file[fd] == NULL)
+			file[fd] = ft_strnew(1);
+		tmp = ft_strjoin(file[fd], buff);
+		free(file[fd]);
+		file[fd] = tmp;
+		if (ft_strchr(buff, '\n'))
 			break ;
 	}
-	if (read_bits < BUFF_SIZE && !ft_strlen(curr->content))
+	if (read_bits < 0)
+		return (-1);
+	else if (read_bits == 0 && (file[fd] == NULL || file[fd][0] == '\0'))
 		return (0);
-	read_bits = ft_copyuntil(line, curr->content, '\n');
-	if (read_bits < (int)ft_strlen(curr->content))
-	{
-		tmp = ft_strdup(curr->content + (read_bits + 1));
-		ft_strdel(&curr->content);
-		curr->content = tmp;
-	}
-	else
-		ft_strclr(curr->content);
-	return (1);
+	return (ft_new_line(file, line, fd, read_bits));
 }
